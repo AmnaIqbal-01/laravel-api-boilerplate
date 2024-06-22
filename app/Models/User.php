@@ -26,6 +26,7 @@ final class User extends Authenticatable
         'about',
         'profile_pic',
         'email_verified_at',
+        
         'password',
     ];
 

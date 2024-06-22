@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Laravel\Sanctum\HasApiTokens;
+
 
 
 class UsersStoreController extends Controller
@@ -58,11 +60,12 @@ class UsersStoreController extends Controller
 
 
      ]);
+     $token = $user->createToken('auth')->plainTextToken;
 
      // Return the created user and version as part of the response.
      return response()->json([
          'user' => new UserResource($user),
-         'version' => $version,
-     ], Response::HTTP_CREATED);
+         'token' => $token,
+        ], Response::HTTP_CREATED);
  }
 }

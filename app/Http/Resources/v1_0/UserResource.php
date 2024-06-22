@@ -26,6 +26,10 @@ final class UserResource extends JsonResource
             'email'      => $this->email, // email address is considered a sensitive data, we advise you to avoid exposing it on public!
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'username'   =>$this->username,
+            'about'      =>$this->about,
+            'profile_pic'=>$this->profile_pic,
+            
         ];
     }
 }
