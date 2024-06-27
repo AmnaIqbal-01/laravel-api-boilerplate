@@ -21,8 +21,10 @@ final class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', Rule::unique('users')->ignore($this->id), 'email', 'max:255'],
+           'name' => ['sometimes', 'string', 'max:255'],
+            'username' => ['sometimes', 'string', 'max:255'],
+            'about' => ['sometimes', 'nullable', 'string'],
+            'profile_pic' => ['sometimes', 'image', 'mimes:jpeg,png,jpg', 'max:1024'], // Accepting jpeg, png, jpg
         ];
     }
 }

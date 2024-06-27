@@ -11,18 +11,33 @@ use App\Enums\Version;
 use App\Http\Requests\Api\v1_0\UserUpdateRequest;
 use App\Http\Resources\v1_0\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 final class UsersUpdateController extends Controller
 {
-    public function __invoke(UserUpdateRequest $request, Version $version, User $user): JsonResource
+    public function __invoke(UserUpdateRequest $request, Version $version): JsonResource
     {
-        abort_unless(
-            $version->greaterThanOrEqualsTo(Version::v1_0),
-            Response::HTTP_NOT_FOUND
-        );
+        $authenticatedUser = Auth::user();
 
-        $user->update($request->validated());
+        if (!$authenticatedUser) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
 
-        return UserResource::make($user->refresh());
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_pic')) {
+            // Store the profile picture and get the path
+            $path = $request->file('profile_pic')->store('profile_pics', 'public');
+            $data['profile_pic'] = $path;
+        }
+
+        // Update the user's information
+        $authenticatedUser->update($data);
+
+        // Return the updated user resource
+        return new UserResource($authenticatedUser->refresh());
     }
 }

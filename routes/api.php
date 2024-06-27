@@ -31,6 +31,10 @@ Route::prefix('user')->group(function (){
     Route::post('/user_signup', [UsersStoreController::class,'test'])->name('register.user');
     // Route::post('/user_signup', UsersStoreController::class)->name('register.user');
 
+});
 
+Route::middleware(['auth:sanctum', 'cache.headers:public;max_age=60;etag'])->group(function () {
+    Route::get('/user',UsersShowController::class)->name('user.show');
+    Route::put('/edit_profile', UsersUpdateController::class)->name('profile.update');
 
 });
