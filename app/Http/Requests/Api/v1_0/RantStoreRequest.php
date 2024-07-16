@@ -22,7 +22,10 @@ final class RantStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        ];
+            'positive' => 'required|integer',
+            'negative' => 'required|integer',
+            'rant' => 'required|string',
+            'tags' => 'nullable|string',       
+         ];
     }
 }

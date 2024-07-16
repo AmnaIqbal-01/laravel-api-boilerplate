@@ -30,6 +30,7 @@ final class Rant extends Model
      * Define the relationship with the User model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * 
      */
     public function user()
     {

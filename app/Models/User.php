@@ -71,4 +71,9 @@ final class User extends Authenticatable
             $model->uuid = (string) Str::uuid();
         });
     }
+
+    public function rants()
+    {
+        return $this->hasMany(Rant::class);
+    }
 }

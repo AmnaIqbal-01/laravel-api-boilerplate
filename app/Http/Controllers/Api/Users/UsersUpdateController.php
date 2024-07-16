@@ -12,14 +12,17 @@ use App\Http\Requests\Api\v1_0\UserUpdateRequest;
 use App\Http\Resources\v1_0\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 final class UsersUpdateController extends Controller
 {
-    public function __invoke(UserUpdateRequest $request, Version $version): JsonResource
+    public function __invoke(UserUpdateRequest $request, Version $version, User $user)
     {
-        $authenticatedUser = Auth::user();
+        Log::info('Updating profile', ['data' => $request->all()]);
 
-        if (!$authenticatedUser) {
+        $user = Auth::user();
+
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found'
@@ -35,9 +38,10 @@ final class UsersUpdateController extends Controller
         }
 
         // Update the user's information
-        $authenticatedUser->update($data);
+        $user->update($data);
+        
 
         // Return the updated user resource
-        return new UserResource($authenticatedUser->refresh());
+        return new UserResource($user->refresh());
     }
 }

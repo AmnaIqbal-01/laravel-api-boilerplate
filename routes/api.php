@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\Posts\{PostsDestroyController, PostsIndexController, PostsShowController, PostsStoreController, PostsUpdateController};
+use App\Http\Controllers\Api\Rants\RantsStoreController;
 use App\Http\Controllers\Api\Users\{UsersDestroyController, UsersIndexController, UsersShowController, UsersUpdateController,UsersStoreController,UsersLoginController};
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,8 @@ Route::prefix('user')->group(function (){
 Route::middleware(['auth:sanctum', 'cache.headers:public;max_age=60;etag'])->group(function () {
     Route::get('/user',UsersShowController::class)->name('user.show');
     Route::put('/edit_profile', UsersUpdateController::class)->name('profile.update');
+    Route::delete('/user', UsersDestroyController::class)->name('user.destroy');
+
+    Route::post('/rant',RantsStoreController::class)->name('rant.create');
 
 });
