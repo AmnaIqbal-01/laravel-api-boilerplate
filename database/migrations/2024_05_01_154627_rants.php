@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('rants', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id(); // This line already defines the id column as the primary key
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->uuid('uuid')->index(); // Add this line if you want a UUID column
             $table->integer('positive');
             $table->integer('negative');
             $table->string('rant');

@@ -3,9 +3,15 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\Posts\{PostsDestroyController, PostsIndexController, PostsShowController, PostsStoreController, PostsUpdateController};
+use App\Http\Controllers\Api\Rants\RantsDestroyController;
+use App\Http\Controllers\Api\Rants\RantsIndexController;
+use App\Http\Controllers\Api\Rants\RantsShowController;
 use App\Http\Controllers\Api\Rants\RantsStoreController;
 use App\Http\Controllers\Api\Users\{UsersDestroyController, UsersIndexController, UsersShowController, UsersUpdateController,UsersStoreController,UsersLoginController};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Comments\CommentsStoreController;
+use App\Http\Controllers\Api\Comments\CommentsShowController;
+use App\Http\Controllers\Api\Comments\CommentsIndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +46,11 @@ Route::middleware(['auth:sanctum', 'cache.headers:public;max_age=60;etag'])->gro
     Route::delete('/user', UsersDestroyController::class)->name('user.destroy');
 
     Route::post('/rant',RantsStoreController::class)->name('rant.create');
+    Route::get('/rants',RantsIndexController::class)->name('get.rants.list');
+    Route::get('/rants/{rant}',RantsShowController::class)->name('get.single.rant');
+    Route::delete('/rants/{rant}',RantsDestroyController::class)->name('delete.rant');
+    Route::post('/comment',CommentsStoreController::class)->name('store.comment');
+    Route::get('/comments/{comment}', CommentsShowController::class)->name('get.comments');
+    Route::get('/comments_list/{rant_id}', [CommentsIndexController::class, '__invoke'])->name('get.comments');
 
 });

@@ -13,13 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CommentsShowController extends Controller
 {
-    public function __invoke(Request $request, Version $version, Comment $comment): JsonResource
+    public function __invoke(Request $request, Version $version, Comment $comment)
     {
-//        abort_unless(
-//            $version->greaterThanOrEqualsTo(Version::v1_0),
-//            Response::HTTP_NOT_FOUND
-//        );
 
-        //
+        return response()->json($comment);
+
     }
 }

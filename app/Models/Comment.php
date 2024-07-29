@@ -21,7 +21,6 @@ final class Comment extends Model
     protected $fillable = [
         'rant_id',
         'user_id',
-        'commenter_id',
         'comment',
     ];
 
@@ -32,19 +31,9 @@ final class Comment extends Model
      */
     public function rant()
     {
-        return $this->belongsTo(Rant::class);
+        return $this->belongsTo(Rant::class, 'rant_id'); 
     }
-
-    /**
-     * Define the relationship with the User model (the commenter).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function commenter()
-    {
-        return $this->belongsTo(User::class, 'commenter_id');
-    }
-
+  
     /**
      * Define the relationship with the User model (the owner of the rant).
      *
@@ -52,6 +41,6 @@ final class Comment extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id'); 
     }
 }

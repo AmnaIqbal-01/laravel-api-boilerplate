@@ -10,6 +10,9 @@ use App\Models\Rant;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 
 final class RantsStoreController extends Controller
@@ -20,8 +23,14 @@ final class RantsStoreController extends Controller
 
         $data = $request->validated();
         $data['user_id'] = $user->id;
+        DB::enableQueryLog();
+
+        Log::info('Rant data:', $data);
+
 
         $rant = Rant::create($data);
+        Log::info(DB::getQueryLog());
+
 
         return response()->json([
             'message' => 'Rant created successfully',

@@ -22,7 +22,9 @@ final class CommentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'rant_id' => 'required|exists:rants,id',
+            'user_id' => 'required|exists:users,id',
+            'comment' => 'required|string|max:1000',
         ];
     }
 }

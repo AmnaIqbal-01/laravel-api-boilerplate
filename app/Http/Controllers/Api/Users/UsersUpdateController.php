@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Log;
 
 final class UsersUpdateController extends Controller
 {
-    public function __invoke(UserUpdateRequest $request, Version $version, User $user)
+    public function __invoke(UserUpdateRequest $request, Version $version)
     {
-        Log::info('Updating profile', ['data' => $request->all()]);
+        Log::info('Raw request data', ['data' => $request->all()]);
 
         $user = Auth::user();
 
@@ -29,7 +29,7 @@ final class UsersUpdateController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $data = $request->validated();
+        $data = $request->except('profile_pic');
 
         if ($request->hasFile('profile_pic')) {
             // Store the profile picture and get the path
@@ -39,7 +39,9 @@ final class UsersUpdateController extends Controller
 
         // Update the user's information
         $user->update($data);
-        
+
+        // Log the updated user data
+        Log::info('Updated user data', ['user' => $user->refresh()]);
 
         // Return the updated user resource
         return new UserResource($user->refresh());

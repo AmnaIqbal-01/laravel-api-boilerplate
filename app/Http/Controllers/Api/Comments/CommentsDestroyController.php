@@ -13,15 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CommentsDestroyController extends Controller
 {
-    public function __invoke(Request $request, Version $version, Comment $comment): JsonResource
+    public function __invoke(Request $request, Version $version, Comment $comment)
     {
-//        abort_unless(
-//            $version->greaterThanOrEqualsTo(Version::v1_0),
-//            Response::HTTP_NOT_FOUND
-//        );
 
-        Comment->delete();
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
-    }
+        $comment->delete();
+
+        return response()->json([            
+            'success' =>true,
+            'message' => 'rant is deleted']);
+        }
+        
 }

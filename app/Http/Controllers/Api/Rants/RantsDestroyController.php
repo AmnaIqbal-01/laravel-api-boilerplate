@@ -13,15 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class RantsDestroyController extends Controller
 {
-    public function __invoke(Request $request, Version $version, Rant $rant): JsonResource
+    public function __invoke(Request $request, Version $version, Rant $rant)
     {
-//        abort_unless(
-//            $version->greaterThanOrEqualsTo(Version::v1_0),
-//            Response::HTTP_NOT_FOUND
-//        );
 
-        Rant->delete();
+    $rant->delete();
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
+    return response()->json([            
+        'success' =>true,
+        'message' => 'rant is deleted']);
     }
 }
